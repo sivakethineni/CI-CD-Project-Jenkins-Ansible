@@ -1,0 +1,7 @@
+---
+- include: dbserver.yml
+- include: dbdeploy.yml
+- include: memcachedb.yml
+- include: messageQ.yml
+- include: appserver.yml
+- include: loadbalancer.yml

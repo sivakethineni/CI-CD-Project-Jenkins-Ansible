@@ -1,0 +1,56 @@
+---
+- hosts: dbservers
+  become: true
+  gather_facts: False
+  vars:
+    dbconfpath: /etc/mysql/mysql.conf.d/mysqld.cnf
+  tasks: 
+  - name: installing mysql
+    package:
+      name: "{{ item }}"
+      state: latest
+      update_cache: yes
+      cache_valid_time: 86400
+    with_items:
+      - mysql-server
+      - mysql-client
+      - python-mysqldb
+      - libmysqlclient-dev
+      - python-pip
+    tags: 
+      - package
+
+
+  - name: starting mysql service
+    service:
+      name: mysql
+      state: started
+      enabled: yes
+
+  - name: creating mysql user
+    mysql_user: 
+      name: "{{dbuser}}" 
+      password: "{{dbpass}}" 
+      priv: "{{dbuserpriv}}" 
+      host: "{{dblistenhost}}" 
+      state: present
+
+  - name: creating mysql database
+    mysql_db:
+      name: "{{dbname}}"
+      state: present        
+
+  - name: mysql bind
+    lineinfile: 
+      path: "{{dbconfpath}}"
+      regexp: '^bind-address'
+      line: 'bind-address = 0.0.0.0'
+    notify:
+      - Restart mysql
+
+  handlers:
+  - name: Restart mysql
+    service: 
+      name: mysql 
+      state: restarted
+

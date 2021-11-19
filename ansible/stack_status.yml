@@ -1,0 +1,66 @@
+---
+- hosts: loadbalancer
+  become: true
+  gather_facts: False
+  tasks:
+  
+  - name: nginx service status
+    command: service nginx status
+  
+  - name: verify nginx is listening on 80
+    wait_for: 
+     port: 80 
+     timeout: 1
+
+- hosts: appservers
+  become: true
+  gather_facts: False
+  tasks:
+
+  - name: verify tomcat service
+    command: service tomcat8 status
+
+
+  - name: verify tomcat is listening on 8080
+    wait_for: 
+     port: 8080
+     timeout: 1
+
+- hosts: dbservers
+  become: true
+  gather_facts: False
+  tasks:
+
+  - name: verify mysql service
+    command: service mysql status
+  
+  - name: verify mysql is listening on 3306
+    wait_for: 
+      port: 3306 
+      timeout: 1
+
+- hosts: dbcache
+  become: true
+  gather_facts: False
+  tasks:
+  
+  - name: Memcache service status
+    command: service memcached status
+  
+  - name: verify MemCache is listening on 11211
+    wait_for: 
+     port: 11211 
+     timeout: 1
+
+- hosts: messageQ
+  become: true
+  gather_facts: False
+  tasks:
+  
+  - name: Rabbit MQ service status
+    command: service rabbitmq-server status
+  
+  - name: verify Rabbit MQ is listening on 5672
+    wait_for: 
+     port: 5672
+     timeout: 1

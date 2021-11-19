@@ -1,0 +1,25 @@
+vpro_package: vprofile-v1.war
+doc_root: /var/lib/tomcat8/webapps
+appname: vprofile
+appdir: vprofile-v1
+src_app_config: application.properties.j2
+dest_app_config: /var/lib/tomcat8/webapps/vprofile-v1/WEB-INF/classes/application.properties
+dbhost: db01
+dbport: 3306
+dbname: accounts
+dbuser: admin
+dbpass: admin123
+
+MemCacheHost01: mc01
+MemCachePort: 11211
+MemCacheHost02: mc02
+
+MQHost01: mq01
+MQHostPort: 5672
+MQUser: test
+MQPass: test
+
+ESHost: es01
+ESPort: 9300
+ESClusterName: vprofile
+ESNodeName: vprofilenode

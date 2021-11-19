@@ -1,0 +1,13 @@
+upstream {{WebGrpName}} {
+{% for appsrv in groups.appservers %} 
+ server {{appsrv}}:{{BackPort}};
+{% endfor %}
+}
+
+server {
+  listen {{FrontPort}};
+location / {
+  proxy_pass http://{{WebGrpName}};
+}
+}
+

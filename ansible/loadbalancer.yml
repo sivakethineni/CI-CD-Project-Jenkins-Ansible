@@ -1,0 +1,46 @@
+---
+- hosts: loadbalancer
+  become: yes
+  gather_facts: False
+  tasks:
+    - name: Install nginx
+      apt: 
+        name: nginx
+        state: present
+        update_cache: yes
+        cache_valid_time: 86400
+      tags: 
+       - package
+
+    - name: Start and enable nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Disable nginx default website
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Deploy web configuration file
+      template:
+        src: "templates/{{src_web_config}}"
+        dest: "/etc/nginx/sites-available/{{dest_web_config}}"
+      notify:
+        Restart nginx
+   
+    - name: Enable vproapp website
+      file:
+        src: "/etc/nginx/sites-available/{{dest_web_config}}"
+        dest: "/etc/nginx/sites-enabled/{{dest_web_config}}"
+        state: link
+      notify:
+        Restart nginx
+
+  handlers:
+  - name: Restart nginx
+    service: 
+      name: nginx
+      state: restarted
+

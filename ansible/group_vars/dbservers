@@ -1,0 +1,6 @@
+dbname: accounts
+dbuser: admin
+dbpass: admin123
+dbuserpriv: '*.*:ALL' 
+dblistenhost: '%'
+sqlfilename: db_backup.sql

@@ -1,0 +1,7 @@
+rmquser: test
+rmqpass: test
+rmqtag: administrator
+rmqconfpriv: .*
+rmqreadpriv: .*
+rmqwritepriv: .*
+rmqconfcont: '[{rabbit, [{loopback_users, []}]}].'

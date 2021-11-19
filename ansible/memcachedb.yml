@@ -1,0 +1,22 @@
+---
+- hosts: dbcache
+  become: yes
+  gather_facts: False
+
+  tasks:
+    - name: Install Memcache
+      apt: 
+        name: memcached
+        state: present
+        update_cache: yes
+        cache_valid_time: 86400
+      tags: 
+       - package
+
+    - name: Start and enable Memcache
+      service:
+        name: memcached
+        state: started
+        enabled: yes
+
+    

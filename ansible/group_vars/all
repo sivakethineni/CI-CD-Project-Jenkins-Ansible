@@ -1,0 +1,4 @@
+dbsrv: db01
+dbuser: admin
+dbpass: admin123
+memcachesrv: mc01

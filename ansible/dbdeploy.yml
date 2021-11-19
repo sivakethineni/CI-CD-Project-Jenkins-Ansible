@@ -1,0 +1,30 @@
+---
+- hosts: dbservers
+  become: true
+  gather_facts: False
+  
+  tasks: 
+  - name: copying database dump file
+    copy: 
+      src: "files/{{sqlfilename}}"
+      dest: /root
+    tags: 
+     - deploy
+
+  - name: restoring database
+    mysql_db:
+      name: "{{dbname}}"
+      login_user: "{{dbuser}}"
+      login_password: "{{dbpass}}"
+      state: import
+      target: "/root/{{sqlfilename}}"
+    tags: 
+     - deploy
+    notify:
+      - Restart mysql
+
+  handlers:
+  - name: Restart mysql
+    service: 
+      name: mysql 
+      state: restarted

@@ -1,0 +1,25 @@
+#JDBC Configutation for Database Connection
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://{{dbhost}}:{{dbport}}/{{dbname}}?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+jdbc.username={{dbuser}}
+jdbc.password={{dbpass}}
+
+#Memcached Configuration For Active and StandBy Host
+#For Active Host
+memcached.active.host={{MemCacheHost01}}
+memcached.active.port={{MemCachePort}}
+#For StandBy Host
+memcached.standBy.host={{MemCacheHost02}}
+memcached.standBy.port={{MemCachePort}}
+
+#RabbitMq Configuration
+rabbitmq.address={{MQHost01}}
+rabbitmq.port={{MQHostPort}}
+rabbitmq.username={{MQUser}}
+rabbitmq.password={{MQPass}}
+
+#Elasticesearch Configuration
+elasticsearch.host ={{ESHost}}
+elasticsearch.port ={{ESPort}}
+elasticsearch.cluster={{ESClusterName}}
+elasticsearch.node={{ESNodeName}}

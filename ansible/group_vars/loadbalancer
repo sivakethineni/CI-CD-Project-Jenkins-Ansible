@@ -1,0 +1,5 @@
+src_web_config: webconf.j2
+dest_web_config: vproapp
+BackPort: 8080
+FrontPort: 80
+WebGrpName: vproapp

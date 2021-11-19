@@ -1,0 +1,111 @@
+# Bring stack stop
+- hosts: loadbalancer
+  become: true
+  gather_facts: False
+  tasks:
+   - name: Stop Nginx service
+     service: 
+      name: nginx 
+      state: stopped
+   - wait_for:
+      port: 80
+      state: drained
+ 
+- hosts: appservers
+  become: true
+  gather_facts: False
+  tasks:
+   - name: Stop Tomcat service
+     service: 
+      name: tomcat8 
+      state: stopped
+   - wait_for:
+      port: 8080
+      state: drained
+
+- hosts: messageQ
+  become: true
+  gather_facts: False
+  tasks:
+   - name: Stop Rabbit MQ service
+     service:
+      name: rabbitmq-server
+      state: stopped
+   - wait_for:
+      port: 5672 
+      state: drained 
+
+- hosts: dbcache
+  become: true
+  gather_facts: False
+  tasks:
+   - name: Stop MemCache service
+     service:
+      name: memcached
+      state: stopped
+   - wait_for:
+      port: 11211
+      state: drained
+
+# Restart mysql
+- hosts: dbservers
+  become: true
+  gather_facts: False
+  tasks:
+   - name: Restarting MySQL service
+     service:
+      name: mysql 
+      state: restarted
+   - wait_for:
+      port: 3306
+      state: started
+
+# Bring the stack up
+- hosts: dbcache
+  become: true
+  gather_facts: False
+  tasks:
+   - name: Start MemCache service
+     service:
+      name: memcached
+      state: started
+   - wait_for:
+      port: 11211
+      state: started
+
+- hosts: messageQ
+  become: true
+  gather_facts: False
+  tasks:
+   - name: Start Message Q service
+     service:
+      name: rabbitmq-server
+      state: started
+   - wait_for:
+      port: 5672
+      state: started
+
+- hosts: appservers
+  become: true
+  gather_facts: False
+  tasks:
+   - name: Start Tomcat service
+     service: 
+      name: tomcat8 
+      state: started
+   - wait_for:
+      port: 8080
+      state: started
+
+
+- hosts: loadbalancer
+  become: true
+  gather_facts: False
+  tasks:
+   - name: Start Nginx service
+     service: 
+      name: nginx 
+      state: started
+   - wait_for:
+      port: 80
+      state: started
