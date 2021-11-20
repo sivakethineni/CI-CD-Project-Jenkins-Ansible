@@ -1,8 +1,8 @@
-lb01 ansible_ssh_host=172.31.18.4 
-app01 ansible_ssh_host=172.31.30.191
-mq01 ansible_ssh_host=172.31.28.42
-mc01 ansible_ssh_host=172.31.21.3
-db01 ansible_ssh_host=172.31.26.118
+lb01 ansible_ssh_host=172.31.46.250
+app01 ansible_ssh_host=172.31.45.171
+mq01 ansible_ssh_host=172.31.41.86
+mc01 ansible_ssh_host=172.31.32.119
+db01 ansible_ssh_host=172.31.34.16
 cntl ansible_ssh_host=127.0.01 ansible_connection=local
 
 [loadbalancer]
@@ -33,6 +33,6 @@ db01
 
 [vprohosts:vars]
 ansible_ssh_user=ubuntu
-ansible_ssh_private_key_file=vprofilesshkey.pem
+ansible_ssh_private_key_file=ssh-key.pem
 #ansible_python_interpreter=/usr/bin/python2.7
 #ansible_python_interpreter=/usr/bin/python3
